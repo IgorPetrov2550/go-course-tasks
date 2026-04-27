@@ -21,10 +21,28 @@ import "fmt"
 // TODO: объяви блок констант с iota для статусов заказа:
 // StatusNew, StatusInWork, StatusDone, StatusCancelled
 const (
-// TODO: заполни константы здесь
+	StatusNew       = iota // 0
+	StatusInWork           // 1
+	StatusDone             // 2
+	StatusCancelled        // 3
 )
 
 // TODO: напиши функцию statusName, которая принимает int
+func statusName(status int) string {
+	switch status {
+	case StatusNew:
+		return "Новый"
+	case StatusInWork:
+		return "В работе"
+	case StatusDone:
+		return "Выполнен"
+	case StatusCancelled:
+		return "Отменен"
+	default:
+		return "Неизвестный статус"
+	}
+}
+
 // и возвращает строку с названием статуса.
 // Для неизвестных значений возвращай "Неизвестный статус".
 
