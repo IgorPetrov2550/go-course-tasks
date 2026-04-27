@@ -24,6 +24,18 @@ import "fmt"
 // TODO: напиши функцию countVowels(s string) int
 // Внутри используй for range и switch для проверки каждого символа
 
+func countVowels(s string) int {
+	var i int
+	for _, ch := range s {
+		switch ch {
+		case 'а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я', 'А', 'Е',
+			'Ё', 'И', 'О', 'У', 'Ы', 'Э', 'Ю', 'Я', 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U':
+			i++
+		}
+	}
+	return i
+}
+
 func main() {
 	tests := []string{"Привет мир", "Hello World", "Go"}
 	for _, s := range tests {
