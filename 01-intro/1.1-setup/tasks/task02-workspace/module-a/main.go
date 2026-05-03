@@ -25,13 +25,12 @@ package main
 
 import (
 	// TODO: импортируй пакет из module-b
-	// "github.com/yourname/module-b"
 	"fmt"
+	"github.com/IgorPetrov2550/module-b"
 )
 
 func main() {
 	// TODO: вызови функцию SayHello из пакета module-b
-	// Пример: fmt.Println(moduleb.SayHello())
+	fmt.Println(moduleb.SayHello())
 
-	fmt.Println("Допиши этот код!")
 }
