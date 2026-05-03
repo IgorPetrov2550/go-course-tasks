@@ -17,15 +17,15 @@ import "fmt"
 
 func main() {
 	// TODO: объяви переменную name типа string со значением "Аня"
-	var name string = "Аня"
+	name := "Аня"
 	// TODO: объяви переменную age типа int со значением 22 (используй короткое объявление :=)
 	age := 22
 	// TODO: объяви переменную balance типа float64 со значением 1500.50
-	var balance float64 = 1500.50
+	balance := 1500.50
 	// TODO: объяви переменную isActive типа bool со значением true
-	var isActive bool = true
+	isActive := true
 	// TODO: объяви переменную firstByteLetter типа byte со значением 'A' (латинская A)
-	var firstByteLetter = 'A'
+	var firstByteLetter byte = 'A'
 	// TODO: объяви переменную firstRuneLetter типа rune со значением 'А' (кириллическая А)
 	var firstRuneLetter = 'А'
 	// Эти строки выводят результат - не меняй их
