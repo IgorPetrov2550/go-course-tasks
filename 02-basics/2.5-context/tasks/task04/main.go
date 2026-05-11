@@ -35,16 +35,48 @@ import (
 
 // TODO: объяви тип ключа и константу requestIDKey
 
+type ctxKey string
+
+const requestIDKey ctxKey = "request-id"
+
 // TODO: handler(ctx context.Context) error
+
+func handler(ctx context.Context) error {
+	ctx = context.WithValue(context.Background(), requestIDKey, "req-99")
+	return service(ctx)
+}
 
 // TODO: service(ctx context.Context) error
 
+func service(ctx context.Context) error {
+	ctx, cansel := context.WithTimeout(ctx, 1*time.Second)
+	defer cansel()
+	return repository(ctx)
+}
+
 // TODO: repository(ctx context.Context) error
+
+func repository(ctx context.Context) error {
+	requestID, ok := ctx.Value(requestIDKey).(string)
+	if !ok {
+		requestID = "unknown-req"
+	}
+
+	fmt.Printf("[%s]  получаем данные из БД...\n", requestID)
+
+	select {
+	case <-time.After(1 * time.Second):
+		fmt.Printf("[%s] готово\n", requestID)
+		return nil
+	case <-ctx.Done():
+		fmt.Printf("[%s] ошибка: %v\n", requestID, ctx.Err())
+		return ctx.Err()
+	}
+}
 
 func main() {
 	// TODO: вызови handler(context.Background()) и обработай ошибку
-
-	_ = context.Background()
-	_ = fmt.Println
-	_ = time.Second
+	if err := handler(context.Background()); err != nil {
+		fmt.Println("Запрос завершился с ошибкой:", err)
+	}
 }

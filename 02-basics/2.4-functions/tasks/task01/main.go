@@ -29,6 +29,13 @@ import (
 )
 
 // TODO: напиши функцию timeTrack(name string) func()
+func timeTrack(name string) func() {
+	start := time.Now()
+	return func() {
+		fmt.Printf("%s заняла %s\n", name, time.Since(start))
+	}
+}
+
 // Подсказка: используй time.Now() для старта и time.Since(start) для подсчёта
 
 func slowWork() {
