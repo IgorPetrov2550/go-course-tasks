@@ -23,11 +23,28 @@ package main
 import "fmt"
 
 // TODO: напиши функцию makeCounter(start int) func() int
+func makeCounter(start int) func() int {
+	return func() int {
+		start++
+		return start
+	}
+}
+
 // Подсказка: текущее значение храни в переменной внутри makeCounter,
 // и обращайся к ней из возвращаемой функции (это и есть замыкание)
 
 func main() {
 	// TODO: создай два независимых счётчика и проверь их работу
+	count1 := makeCounter(4)
+	count2 := makeCounter(99)
 
-	fmt.Println("Допиши код!")
+	fmt.Println("Счетчик от 5:")
+	fmt.Println(count1())
+	fmt.Println(count1())
+	fmt.Println(count1())
+	fmt.Println("Счетчик от 100:")
+	fmt.Println(count2())
+	fmt.Println(count2())
+	fmt.Println("Счётчики независимы - счётчик от 5 продолжает:")
+	fmt.Println(count1())
 }

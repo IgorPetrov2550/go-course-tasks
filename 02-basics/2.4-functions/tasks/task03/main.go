@@ -29,6 +29,18 @@ import (
 
 // TODO: напиши memoize(fn func(int) int) func(int) int
 
+func memoize(fn func(int) int) func(int) int {
+	cache := map[int]int{}
+	return func(n int) int {
+		if v, ok := cache[n]; ok {
+			return v
+		}
+		result := fn(n)
+		cache[n] = result
+		return result
+	}
+}
+
 func fib(n int) int {
 	time.Sleep(10 * time.Millisecond)
 	if n < 2 {
@@ -39,8 +51,25 @@ func fib(n int) int {
 
 func main() {
 	// TODO: оберни fib через memoize и замерь время trёх вызовов:
+	fastFib := memoize(fib)
+	/*	start := time.Now()
+		fmt.Printf("fastFib(10): %d, время вызова: %s\n", fastFib(10), time.Since(start))
+		start = time.Now()
+		//fastFib(10)
+		fmt.Printf("повторный fastFib(10): %d, время вызова: %s\n", fastFib(10), time.Since(start))
+		start = time.Now()
+		//fastFib(20)
+		fmt.Printf("fastFib(20): %d, время вызова: %s\n", fastFib(20), time.Since(start))
+	*/
+	timerFib := func(n int) {
+		start := time.Now()
+		result := fastFib(n)
+		fmt.Printf("fib(%d) = %d (вычислено за %s)\n", n, result, time.Since(start))
+	}
+	timerFib(10)
+	fmt.Println("Из кэша")
+	timerFib(10)
+	timerFib(20)
 	//   fib(10), повторный fib(10), fib(20)
 
-	_ = fmt.Println
-	_ = time.Now
 }
