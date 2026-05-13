@@ -32,16 +32,38 @@ import (
 //   case <-ctx.Done(): печатай "воркер N остановлен: <ctx.Err()>" и return
 //   case <-ticker.C:  печатай "воркер N работает..."
 
+func worker(ctx context.Context, id int) {
+	ticker := time.NewTicker(500 * time.Millisecond)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ticker.C:
+			fmt.Printf("воркер %d работает...\n", id)
+		case <-ctx.Done():
+			fmt.Printf("воркер %d остановлен:%v\n", id, ctx.Err())
+			return
+		}
+	}
+}
+
 func main() {
 	// TODO: создай контекст с отменой
 	// ctx, cancel := context.WithCancel(context.Background())
 	// defer cancel()
-
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	// TODO: запусти двух воркеров в горутинах, дождись их через sync.WaitGroup
-	// TODO: через 2 секунды вызови cancel()
+	var wg sync.WaitGroup
 
-	_ = context.Background()
-	_ = fmt.Println
-	_ = sync.WaitGroup{}
-	_ = time.Second
+	for i := 1; i <= 2; i++ {
+		wg.Add(1)
+		go func(workerID int) {
+			defer wg.Done()
+			worker(ctx, workerID)
+		}(i)
+	}
+	// TODO: через 2 секунды вызови cancel()
+	time.Sleep(2 * time.Second)
+	cancel()
+	wg.Wait()
 }
