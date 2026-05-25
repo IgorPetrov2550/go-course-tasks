@@ -14,11 +14,29 @@ import "fmt"
 
 // TODO: объяви интерфейс Logger с методом Log(message string)
 
+type Logger interface {
+	Log(message string)
+}
+
 // TODO: объяви структуру ConsoleLogger (без полей)
 // TODO: реализуй Log(message string) — просто выводи message
 
+type ConsoleLogger struct{}
+
+func (c ConsoleLogger) Log(message string) {
+	fmt.Println(message)
+}
+
 // TODO: объяви структуру PrefixLogger с полем Prefix (string)
 // TODO: реализуй Log(message string) — выводи "<Prefix> <message>"
+
+type PrefixLogger struct {
+	Prefix string
+}
+
+func (p PrefixLogger) Log(message string) {
+	fmt.Printf("%s %s\n", p.Prefix, message)
+}
 
 // TODO: напиши функцию processOrder(logger Logger, id string)
 //       пишет 3 сообщения:
@@ -26,8 +44,15 @@ import "fmt"
 //       "validating order"
 //       "order done"
 
+func processOrder(logger Logger, id string) {
+	logger.Log(fmt.Sprintf("processing order %s", id))
+	logger.Log("validating order")
+	logger.Log("order done")
+}
+
 func main() {
 	// TODO: вызови processOrder с ConsoleLogger{} и id "order-1"
 	// TODO: вызови processOrder с PrefixLogger{Prefix: "[INFO]"} и id "order-1"
-	fmt.Println("TODO: implement me")
+	processOrder(ConsoleLogger{}, "order-1")
+	processOrder(PrefixLogger{Prefix: "[INFO]"}, "order-1")
 }
