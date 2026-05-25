@@ -6,14 +6,32 @@
 
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 // TODO: напиши функцию safeDivide(a, b int) (int, error)
 //       если b == 0, верни 0 и ошибку "division by zero"
 //       иначе верни a / b и nil
 
+func safeDivide(a, b int) (int, error) {
+	if b == 0 {
+		return 0, errors.New("division by zero")
+	}
+	return a / b, nil
+}
+
 func main() {
 	// TODO: вызови safeDivide(10, 2) и выведи "result: <значение>"
 	// TODO: вызови safeDivide(10, 0) и выведи "error: <ошибка>"
-	fmt.Println("TODO: implement me")
+	result, err := safeDivide(10, 2)
+	if err == nil {
+		fmt.Printf("result: %d\n", result)
+	}
+
+	result, err = safeDivide(10, 0)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+	}
 }

@@ -52,15 +52,6 @@ func fib(n int) int {
 func main() {
 	// TODO: оберни fib через memoize и замерь время trёх вызовов:
 	fastFib := memoize(fib)
-	/*	start := time.Now()
-		fmt.Printf("fastFib(10): %d, время вызова: %s\n", fastFib(10), time.Since(start))
-		start = time.Now()
-		//fastFib(10)
-		fmt.Printf("повторный fastFib(10): %d, время вызова: %s\n", fastFib(10), time.Since(start))
-		start = time.Now()
-		//fastFib(20)
-		fmt.Printf("fastFib(20): %d, время вызова: %s\n", fastFib(20), time.Since(start))
-	*/
 	timerFib := func(n int) {
 		start := time.Now()
 		result := fastFib(n)

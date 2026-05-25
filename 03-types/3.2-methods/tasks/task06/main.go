@@ -10,12 +10,32 @@ import "fmt"
 
 // TODO: объяви структуру Timer с полями Seconds (int), Running (bool)
 
+type Timer struct {
+	Seconds int
+	Running bool
+}
+
 // TODO: добавь метод Start() с получателем-указателем — ставит Running = true
+
+func (t *Timer) Start() {
+	t.Running = true
+}
 
 // TODO: добавь метод Stop() с получателем-указателем — ставит Running = false
 
+func (t *Timer) Stop() {
+	t.Running = false
+}
+
 // TODO: добавь метод Status() string с получателем-значением
 //       возвращает "running" если Running == true, иначе "stopped"
+
+func (t Timer) Status() string {
+	if t.Running {
+		return "running"
+	}
+	return "stopped"
+}
 
 func main() {
 	t := &Timer{}
