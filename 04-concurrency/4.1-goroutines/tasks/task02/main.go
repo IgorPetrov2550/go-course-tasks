@@ -25,22 +25,23 @@ package main
 import (
 	"fmt"
 	"sync"
+	"sync/atomic"
 )
 
 func main() {
-	var counter int // ПРОБЛЕМА: несколько горутин пишут сюда одновременно
+	var counter atomic.Int64 // ПРОБЛЕМА: несколько горутин пишут сюда одновременно
 	var wg sync.WaitGroup
 
 	for i := 0; i < 1000; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			counter++ // ГОНКА: чтение + запись не атомарны!
+			counter.Add(1) // ГОНКА: чтение + запись не атомарны!
 		}()
 	}
 
 	wg.Wait()
 	// Из-за гонки counter может быть меньше 1000
-	fmt.Println("Финальное значение счётчика:", counter)
+	fmt.Println("Финальное значение счётчика:", counter.Load())
 	fmt.Println("(Правильное значение должно быть 1000)")
 }

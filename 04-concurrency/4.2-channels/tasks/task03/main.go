@@ -26,13 +26,62 @@ package main
 import "fmt"
 
 // TODO: func generate(nums ...int) <-chan int
+func generate(nums ...int) <-chan int {
+	out := make(chan int)
+
+	go func() {
+		defer close(out)
+		for _, n := range nums {
+			out <- n
+		}
+	}()
+
+	return out
+}
 
 // TODO: func square(in <-chan int) <-chan int
+func square(in <-chan int) <-chan int {
+	out := make(chan int)
+
+	go func() {
+		defer close(out)
+		for n := range in {
+			out <- n * n
+		}
+	}()
+
+	return out
+}
 
 // TODO: func filter(in <-chan int, pred func(int) bool) <-chan int
+func filter(in <-chan int, pred func(int) bool) <-chan int {
+	out := make(chan int)
 
+	go func() {
+		defer close(out)
+		for n := range in {
+			if pred(n) {
+				out <- n
+			}
+		}
+	}()
+
+	return out
+}
 func main() {
 	// TODO: собери конвейер и напечатай результат через for range
+	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-	_ = fmt.Println
+	isEven := func(n int) bool {
+		return n%2 == 0
+	}
+
+	genCh := generate(nums...)
+	sqCH := square(genCh)
+	filterCh := filter(sqCH, isEven)
+
+	for result := range filterCh {
+		fmt.Printf("%d ", result)
+	}
+	fmt.Println()
 }
