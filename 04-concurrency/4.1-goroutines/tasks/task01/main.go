@@ -25,24 +25,25 @@ import (
 func main() {
 	// TODO: объяви WaitGroup
 	var wg sync.WaitGroup
-
+	wg.Add(10)
 	for i := 1; i <= 10; i++ {
 		// TODO: увеличь счётчик wg на 1
-
+		//wg.Add(1)
 		// TODO: запусти горутину, передав i как параметр
+		go func(counter int) {
+			defer wg.Done()
+			workTime := time.Duration(rand.Intn(150)) + 50*time.Millisecond
+			time.Sleep(workTime)
+			fmt.Printf("Задача %d выполнена за %d\n", counter, workTime%100)
+		}(i)
 		// Внутри горутины:
 		//   - вызови defer wg.Done()
 		//   - сгенерируй случайное время: rand.Intn(150)+50 миллисекунд
 		//   - подожди это время через time.Sleep
 		//   - выведи результат
-
-		_ = i // удали эту строку когда добавишь код
 	}
 
-	// TODO: дождись всех горутин через wg.Wait()
+	wg.Wait()
+	fmt.Println("Все 10 задач выполнены!")
 
-	_ = fmt.Println // убери когда начнёшь использовать
-	_ = rand.Intn   // убери когда начнёшь использовать
-	_ = time.Sleep  // убери когда начнёшь использовать
-	_ = wg          // убери когда начнёшь использовать
 }

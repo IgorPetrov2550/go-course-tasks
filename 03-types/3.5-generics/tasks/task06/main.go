@@ -10,9 +10,17 @@ import "fmt"
 // TODO: напиши функцию Values[K comparable, V any](m map[K]V) []V
 //       возвращает срез всех значений из map
 
+func Values[K comparable, V any](m map[K]V) []V {
+	vals := make([]V, 0, len(m))
+	for _, val := range m {
+		vals = append(vals, val)
+	}
+	return vals
+}
+
 func main() {
 	m := map[string]int{"a": 1, "b": 2, "c": 3}
 	// TODO: вызови Values(m) и выведи результат через fmt.Println("values:", vals)
-	_ = m
-	fmt.Println("TODO: implement me")
+
+	fmt.Println("values:", Values(m))
 }

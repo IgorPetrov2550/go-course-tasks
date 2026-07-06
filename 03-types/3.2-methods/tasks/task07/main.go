@@ -11,13 +11,34 @@ import "fmt"
 
 // TODO: объяви структуру BankAccount с полями Owner (string), Balance (int)
 
+type BankAccount struct {
+	Owner   string
+	Balance int
+}
+
 // TODO: добавь метод Deposit(amount int) с получателем-указателем
+
+func (b *BankAccount) Deposit(amount int) {
+	b.Balance += amount
+}
 
 // TODO: добавь метод Withdraw(amount int) bool с получателем-указателем
 //       возвращает false если Balance < amount, иначе вычитает и возвращает true
 
+func (b *BankAccount) Withdraw(amount int) bool {
+	if b.Balance < amount {
+		return false
+	}
+	b.Balance -= amount
+	return true
+}
+
 // TODO: добавь метод Info() string с получателем-значением
 //       возвращает "<Owner>: <Balance>"
+
+func (b *BankAccount) Info() string {
+	return fmt.Sprintf("%s: %d", b.Owner, b.Balance)
+}
 
 func main() {
 	acc := &BankAccount{Owner: "Bob", Balance: 0}
